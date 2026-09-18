@@ -50,7 +50,7 @@ export function Spotlight({ children, className }: { children: ReactNode; classN
       ref={ref}
       onPointerMove={(e) => {
         const el = ref.current;
-        if (!el) return;
+        if (!el || e.pointerType !== "mouse") return;
         const r = el.getBoundingClientRect();
         el.style.setProperty("--mx", `${e.clientX - r.left}px`);
         el.style.setProperty("--my", `${e.clientY - r.top}px`);
@@ -82,6 +82,7 @@ export function Magnetic({
       style={{ x, y, display: "inline-block" }}
       className={className}
       onPointerMove={(e) => {
+        if (e.pointerType !== "mouse") return;   // touch drags must not move it
         const r = ref.current?.getBoundingClientRect();
         if (!r) return;
         x.set((e.clientX - (r.left + r.width / 2)) * strength);

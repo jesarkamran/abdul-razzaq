@@ -22,6 +22,10 @@
 
 html { scroll-behavior: smooth; }
 
+/* Nothing should ever scroll sideways. `clip` (not `hidden`) so the sticky
+   filter bar on /lectures keeps working. */
+html, body { overflow-x: clip; }
+
 body {
   background: var(--color-paper);
   color: var(--color-ink);
@@ -90,8 +94,10 @@ body {
   );
   z-index: -1;
 }
-.card:hover { transform: translateY(-4px); border-color: color-mix(in oklab, var(--color-teal-500) 45%, transparent); box-shadow: 0 18px 50px -24px color-mix(in oklab, var(--color-teal-500) 55%, transparent); }
-.card:hover::before { opacity: 1; }
+@media (hover: hover) {
+  .card:hover { transform: translateY(-4px); border-color: color-mix(in oklab, var(--color-teal-500) 45%, transparent); box-shadow: 0 18px 50px -24px color-mix(in oklab, var(--color-teal-500) 55%, transparent); }
+  .card:hover::before { opacity: 1; }
+}
 
 /* Glowing pill button (nav CTA, primary actions) */
 .glow-btn { position: relative; isolation: isolate; }
@@ -125,8 +131,9 @@ body {
   position: absolute;
   pointer-events: none;
   border-radius: 9999px;
-  filter: blur(120px);
+  filter: blur(64px);   /* cheaper on phone GPUs */
 }
+@media (min-width: 768px) { .mesh { filter: blur(120px); } }
 
 /* Respect users who don't want motion — Framer Motion reads this too. */
 @media (prefers-reduced-motion: reduce) {

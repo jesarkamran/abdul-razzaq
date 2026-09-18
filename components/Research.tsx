@@ -8,14 +8,14 @@ import { Reveal, Spotlight, Magnetic } from "./ui";
 
 export default function Research() {
   return (
-    <section id="research" className="px-6 py-28">
+    <section id="research" className="px-5 py-20 sm:px-6 md:py-28">
       <div className="mx-auto max-w-6xl">
         <Reveal className="flex flex-wrap items-end justify-between gap-6">
           <div>
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-teal-600 dark:text-teal-400">
               Research
             </p>
-            <h2 className="mt-3 font-display text-4xl tracking-tight md:text-5xl">
+            <h2 className="mt-3 font-display text-[clamp(2rem,8vw,2.25rem)] tracking-tight md:text-5xl">
               Selected Publications
             </h2>
           </div>
@@ -37,7 +37,7 @@ export default function Research() {
             const course = courseById(p.courseId);
             return (
               <Reveal key={p.title} i={i}>
-                <Spotlight className="card group flex h-full flex-col p-7">
+                <Spotlight className="card group flex h-full flex-col p-6 sm:p-7">
                   <span className="flex items-center justify-between">
                     <p className="font-mono text-[10px] uppercase tracking-widest text-ink/45 dark:text-mist/45">
                       {p.year} · {p.venue}

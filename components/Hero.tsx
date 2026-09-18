@@ -18,14 +18,14 @@ const badges = researchAreas.slice(0, 4).map((label, i) => ({
 
 export default function Hero() {
   return (
-    <section id="hero" className="relative isolate overflow-hidden px-6 pt-36 pb-28 md:pt-48">
+    <section id="hero" className="relative isolate overflow-hidden px-5 pt-32 pb-20 sm:px-6 md:pt-48 md:pb-28">
       {/* Mesh glow sitting directly behind the headline */}
       <div
         aria-hidden
-        className="mesh -top-32 left-[6%] -z-10 h-[34rem] w-[46rem] bg-teal-500/25 dark:bg-teal-500/30"
+        className="mesh -top-32 left-[6%] -z-10 h-[22rem] w-full bg-teal-500/25 md:h-[34rem] md:w-[46rem] dark:bg-teal-500/30"
       />
 
-      <div className="mx-auto grid max-w-6xl items-center gap-16 md:grid-cols-[1.15fr_0.85fr]">
+      <div className="mx-auto grid max-w-6xl items-center gap-14 md:grid-cols-[1.15fr_0.85fr] md:gap-16">
         <div>
           <motion.p
             custom={0} initial="hidden" animate="show" variants={rise}
@@ -38,7 +38,7 @@ export default function Hero() {
 
           <motion.h1
             custom={1} initial="hidden" animate="show" variants={rise}
-            className="mt-6 font-display text-6xl leading-[1.02] tracking-tight md:text-8xl"
+            className="mt-6 font-display text-[clamp(3rem,13vw,4.5rem)] leading-[1.02] tracking-tight md:text-8xl"
           >
             Dr. Abdul
             <span className="block bg-gradient-to-r from-ink via-ink to-teal-600 bg-clip-text text-transparent
@@ -49,7 +49,7 @@ export default function Hero() {
 
           <motion.p
             custom={2} initial="hidden" animate="show" variants={rise}
-            className="mt-7 max-w-xl text-lg leading-relaxed text-ink/70 dark:text-mist/70"
+            className="mt-6 max-w-xl text-base leading-relaxed text-ink/70 sm:text-lg dark:text-mist/70"
           >
             Teaching financial management and accounting at the {profile.school} — and
             researching digital financial inclusion, fintech adoption and the economics of
@@ -58,24 +58,24 @@ export default function Hero() {
 
           <motion.div
             custom={3} initial="hidden" animate="show" variants={rise}
-            className="mt-10 flex flex-wrap items-center gap-4"
+            className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4"
           >
-            <Magnetic strength={0.25}>
+            <Magnetic strength={0.25} className="max-sm:w-full">
               <Link
                 href="/#booking"
-                className="glow-btn group inline-flex items-center gap-2 rounded-full bg-ink px-7 py-3.5 text-sm
-                           font-medium text-paper transition-transform duration-300 hover:scale-[1.03]
-                           dark:bg-mist dark:text-void"
+                className="glow-btn group inline-flex w-full items-center justify-center gap-2 rounded-full bg-ink
+                           px-7 py-3.5 text-sm font-medium text-paper transition-transform duration-300
+                           hover:scale-[1.03] sm:w-auto dark:bg-mist dark:text-void"
               >
                 Book a Session
                 <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
               </Link>
             </Magnetic>
-            <Magnetic strength={0.25}>
+            <Magnetic strength={0.25} className="max-sm:w-full">
               <Link
                 href="/lectures"
-                className="group inline-flex items-center gap-2 rounded-full glass px-7 py-3.5 text-sm font-medium
-                           transition-colors hover:border-teal-500/50"
+                className="group inline-flex w-full items-center justify-center gap-2 rounded-full glass px-7 py-3.5
+                           text-sm font-medium transition-colors hover:border-teal-500/50 sm:w-auto"
               >
                 <Play size={14} className="fill-current transition-transform group-hover:scale-110" />
                 Watch Latest Lecture
@@ -85,7 +85,7 @@ export default function Hero() {
 
           <motion.dl
             custom={4} initial="hidden" animate="show" variants={rise}
-            className="mt-14 flex gap-10 border-t border-ink/10 pt-8 md:hidden dark:border-mist/10"
+            className="mt-12 grid grid-cols-3 gap-4 border-t border-ink/10 pt-8 md:hidden dark:border-mist/10"
           >
             {profile.stats.map((s) => (
               <div key={s.label}>

@@ -12,7 +12,7 @@ const socials: { label: string; href: string; Icon: LucideIcon }[] = [
 
 export default function Footer() {
   return (
-    <footer className="relative mt-10 px-6 pb-14 pt-16">
+    <footer className="relative mt-10 px-5 pb-14 pt-16 sm:px-6">
       {/* Animated gradient hairline along the top edge */}
       <div aria-hidden className="gradient-rule absolute inset-x-0 top-0" />
 

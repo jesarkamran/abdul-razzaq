@@ -16,14 +16,14 @@ export default function Home() {
       <About />
       <Research />
 
-      <section id="lectures" className="px-6 py-28">
+      <section id="lectures" className="px-5 py-20 sm:px-6 md:py-28">
         <div className="mx-auto max-w-6xl">
           <Reveal className="flex flex-wrap items-end justify-between gap-6">
             <div>
               <p className="font-mono text-xs uppercase tracking-[0.2em] text-teal-600 dark:text-teal-400">
                 Lectures & Courses
               </p>
-              <h2 className="mt-3 font-display text-4xl tracking-tight md:text-5xl">
+              <h2 className="mt-3 font-display text-[clamp(2rem,8vw,2.25rem)] tracking-tight md:text-5xl">
                 The curriculum, in order
               </h2>
               <p className="mt-4 max-w-xl text-ink/65 dark:text-mist/65">
