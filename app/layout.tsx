@@ -21,10 +21,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap"
           rel="stylesheet"
         />
-        {/* Sets the theme before first paint so dark mode doesn't flash. */}
+        {/* Light is the default; dark only if the visitor chose it. Runs before
+            first paint so their choice doesn't flash. */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{var t=localStorage.theme;if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')}catch(e){}`,
+            __html: `try{if(localStorage.theme==='dark')document.documentElement.classList.add('dark')}catch(e){}`,
           }}
         />
       </head>

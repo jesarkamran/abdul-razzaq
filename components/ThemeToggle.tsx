@@ -6,8 +6,9 @@ export default function ThemeToggle() {
   const [dark, setDark] = useState(false);
 
   useEffect(() => {
-    const saved = localStorage.theme === "dark" ||
-      (!("theme" in localStorage) && matchMedia("(prefers-color-scheme: dark)").matches);
+    // Light unless the visitor has picked dark before. Mirrors the inline
+    // script in app/layout.tsx — keep the two in step.
+    const saved = localStorage.theme === "dark";
     setDark(saved);
     document.documentElement.classList.toggle("dark", saved);
   }, []);
