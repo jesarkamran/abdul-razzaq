@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+/* Dark mode driven by a class on <html>, toggled by ThemeToggle. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Ink & paper */
+  --color-paper: oklch(98.5% 0.004 90);      /* light bg   #FAFAF8 */
+  --color-ink: oklch(19% 0.012 260);          /* light text #14161C */
+  --color-void: oklch(16% 0.014 260);         /* dark bg    #0D0F14 */
+  --color-mist: oklch(94% 0.006 260);         /* dark text  #ECEEF2 */
+
+  /* Accent: deep academic teal + a warm citation gold */
+  --color-teal-500: oklch(58% 0.11 195);
+  --color-teal-600: oklch(50% 0.10 195);
+  --color-gold-400: oklch(80% 0.13 82);
+
+  --font-display: "Instrument Serif", ui-serif, Georgia, serif;
+  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+.dark body { background: var(--color-void); color: var(--color-mist); }
+
+/* Respect users who don't want motion — Framer Motion reads this too. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
