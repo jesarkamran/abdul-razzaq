@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import ThemeToggle from "./ThemeToggle";
+import { Magnetic, ease } from "./ui";
 
 const links = [
   { href: "/#about", label: "About" },
@@ -22,35 +24,53 @@ export default function Nav() {
   }, []);
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300
-        ${scrolled ? "border-b border-ink/10 bg-paper/80 backdrop-blur-xl dark:border-mist/10 dark:bg-void/80" : ""}`}
-    >
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <Link href="/" className="font-display text-lg tracking-tight">
-          A. Razzaq<span className="text-teal-600">.</span>
-        </Link>
+    <header className="fixed inset-x-0 top-0 z-50 px-4">
+      <motion.nav
+        initial={{ y: -80, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8, ease }}
+        // Floating pill: it shrinks and frosts once the page moves.
+        className={`mx-auto flex items-center justify-between rounded-full transition-all duration-500
+          ${scrolled
+            ? "glass mt-3 max-w-3xl px-5 py-2.5 shadow-[0_8px_40px_-16px_rgba(0,0,0,.35)]"
+            : "mt-5 max-w-6xl border border-transparent px-6 py-4"}`}
+      >
+        <Magnetic strength={0.25}>
+          <Link href="/" className="font-display text-lg tracking-tight">
+            A. Razzaq<span className="text-teal-600">.</span>
+          </Link>
+        </Magnetic>
 
-        <div className="flex items-center gap-2 sm:gap-6">
-          <ul className="hidden items-center gap-6 text-sm sm:flex">
+        <div className="flex items-center gap-2 sm:gap-5">
+          <ul className="hidden items-center gap-1 text-sm sm:flex">
             {links.map((l) => (
               <li key={l.href}>
-                <Link href={l.href} className="text-ink/70 transition-colors hover:text-ink dark:text-mist/70 dark:hover:text-mist">
-                  {l.label}
-                </Link>
+                <Magnetic strength={0.3}>
+                  <Link
+                    href={l.href}
+                    className="relative rounded-full px-3.5 py-2 text-ink/70 transition-colors
+                               hover:bg-ink/5 hover:text-ink dark:text-mist/70 dark:hover:bg-mist/10 dark:hover:text-mist"
+                  >
+                    {l.label}
+                  </Link>
+                </Magnetic>
               </li>
             ))}
           </ul>
+
           <ThemeToggle />
-          <Link
-            href="/#booking"
-            className="rounded-full bg-ink px-5 py-2 text-sm font-medium text-paper
-                       transition-transform hover:-translate-y-0.5 dark:bg-mist dark:text-void"
-          >
-            Book
-          </Link>
+
+          <Magnetic strength={0.3}>
+            <Link
+              href="/#booking"
+              className="glow-btn inline-block rounded-full bg-ink px-5 py-2 text-sm font-medium text-paper
+                         transition-transform duration-300 hover:scale-[1.04] dark:bg-mist dark:text-void"
+            >
+              Book
+            </Link>
+          </Magnetic>
         </div>
-      </nav>
+      </motion.nav>
     </header>
   );
 }

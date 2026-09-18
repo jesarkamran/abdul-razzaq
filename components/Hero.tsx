@@ -3,46 +3,53 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { ArrowRight, Play } from "lucide-react";
 import portrait from "@/public/profile.jpg";
 import { profile, researchAreas } from "@/lib/data";
+import { rise, ease, Magnetic } from "./ui";
 
-const rise = {
-  hidden: { opacity: 0, y: 24 },
-  show: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.08, duration: 0.7, ease: [0.22, 1, 0.36, 1] as const },
-  }),
-};
+// The first four research areas float around the portrait — one position and
+// drift phase each, so they stay in sync with lib/data.
+const badges = researchAreas.slice(0, 4).map((label, i) => ({
+  label,
+  pos: ["-left-6 top-10", "-right-4 top-1/3", "-left-10 bottom-1/3", "-right-6 bottom-16"][i],
+  delay: i * 0.6,
+}));
 
 export default function Hero() {
   return (
-    <section id="hero" className="relative isolate overflow-hidden px-6 pt-32 pb-24 md:pt-44">
+    <section id="hero" className="relative isolate overflow-hidden px-6 pt-36 pb-28 md:pt-48">
+      {/* Mesh glow sitting directly behind the headline */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-40 left-1/2 -z-10 h-[40rem] w-[60rem] -translate-x-1/2
-                   rounded-full bg-teal-500/15 blur-[120px] dark:bg-teal-500/20"
+        className="mesh -top-32 left-[6%] -z-10 h-[34rem] w-[46rem] bg-teal-500/25 dark:bg-teal-500/30"
       />
 
-      <div className="mx-auto grid max-w-6xl items-center gap-14 md:grid-cols-[1.1fr_0.9fr]">
+      <div className="mx-auto grid max-w-6xl items-center gap-16 md:grid-cols-[1.15fr_0.85fr]">
         <div>
           <motion.p
             custom={0} initial="hidden" animate="show" variants={rise}
-            className="font-mono text-xs uppercase tracking-[0.2em] text-teal-600 dark:text-teal-500"
+            className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 font-mono text-[11px]
+                       uppercase tracking-[0.2em] text-teal-600 dark:text-teal-400"
           >
+            <span className="h-1.5 w-1.5 rounded-full bg-teal-500 shadow-[0_0_10px_2px] shadow-teal-500/60" />
             {profile.role} · QAU Islamabad
           </motion.p>
 
           <motion.h1
             custom={1} initial="hidden" animate="show" variants={rise}
-            className="mt-5 font-display text-5xl leading-[1.05] tracking-tight md:text-7xl"
+            className="mt-6 font-display text-6xl leading-[1.02] tracking-tight md:text-8xl"
           >
-            {profile.name}
+            Dr. Abdul
+            <span className="block bg-gradient-to-r from-ink via-ink to-teal-600 bg-clip-text text-transparent
+                             dark:from-mist dark:via-mist dark:to-teal-400">
+              Razzaq
+            </span>
           </motion.h1>
 
           <motion.p
             custom={2} initial="hidden" animate="show" variants={rise}
-            className="mt-6 max-w-xl text-lg text-ink/70 dark:text-mist/70"
+            className="mt-7 max-w-xl text-lg leading-relaxed text-ink/70 dark:text-mist/70"
           >
             Teaching financial management and accounting at the {profile.school} — and
             researching digital financial inclusion, fintech adoption and the economics of
@@ -51,29 +58,34 @@ export default function Hero() {
 
           <motion.div
             custom={3} initial="hidden" animate="show" variants={rise}
-            className="mt-9 flex flex-wrap gap-3"
+            className="mt-10 flex flex-wrap items-center gap-4"
           >
-            <Link
-              href="/#booking"
-              className="group rounded-full bg-ink px-7 py-3.5 text-sm font-medium text-paper
-                         transition-transform duration-200 hover:-translate-y-0.5 dark:bg-mist dark:text-void"
-            >
-              Book a Session
-              <span className="ml-2 inline-block transition-transform group-hover:translate-x-1">→</span>
-            </Link>
-            <Link
-              href="/lectures"
-              className="rounded-full border border-ink/15 px-7 py-3.5 text-sm font-medium
-                         transition-colors duration-200 hover:border-ink/40 hover:bg-ink/5
-                         dark:border-mist/20 dark:hover:border-mist/50 dark:hover:bg-mist/5"
-            >
-              Watch Latest Lecture
-            </Link>
+            <Magnetic strength={0.25}>
+              <Link
+                href="/#booking"
+                className="glow-btn group inline-flex items-center gap-2 rounded-full bg-ink px-7 py-3.5 text-sm
+                           font-medium text-paper transition-transform duration-300 hover:scale-[1.03]
+                           dark:bg-mist dark:text-void"
+              >
+                Book a Session
+                <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
+              </Link>
+            </Magnetic>
+            <Magnetic strength={0.25}>
+              <Link
+                href="/lectures"
+                className="group inline-flex items-center gap-2 rounded-full glass px-7 py-3.5 text-sm font-medium
+                           transition-colors hover:border-teal-500/50"
+              >
+                <Play size={14} className="fill-current transition-transform group-hover:scale-110" />
+                Watch Latest Lecture
+              </Link>
+            </Magnetic>
           </motion.div>
 
           <motion.dl
             custom={4} initial="hidden" animate="show" variants={rise}
-            className="mt-12 flex gap-10 border-t border-ink/10 pt-7 dark:border-mist/10"
+            className="mt-14 flex gap-10 border-t border-ink/10 pt-8 md:hidden dark:border-mist/10"
           >
             {profile.stats.map((s) => (
               <div key={s.label}>
@@ -87,14 +99,15 @@ export default function Hero() {
         </div>
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.96 }}
+          initial={{ opacity: 0, scale: 0.94 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 1, ease }}
           className="relative"
         >
           {/* Square source (316px), so the frame is square too — no crop, no upscale. */}
-          <div className="aspect-square w-full overflow-hidden rounded-3xl bg-gradient-to-br
-                          from-teal-500/25 to-ink/10 shadow-2xl shadow-ink/10 dark:to-mist/5 dark:shadow-black/40">
+          <div className="relative aspect-square w-full overflow-hidden rounded-[2rem] border border-ink/10
+                          bg-gradient-to-br from-teal-500/30 via-transparent to-gold-400/20
+                          shadow-[0_40px_120px_-40px_rgba(0,0,0,.55)] dark:border-mist/10">
             <Image
               src={portrait}
               alt={`Portrait of ${profile.name}`}
@@ -103,15 +116,45 @@ export default function Hero() {
               sizes="(max-width: 768px) 100vw, 40vw"
               className="h-full w-full object-cover"
             />
+            {/* Gradient scrim so the floating card below stays legible */}
+            <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
           </div>
-          <div className="absolute -bottom-5 -left-5 hidden max-w-[16rem] flex-wrap gap-1.5 rounded-2xl
-                          bg-paper/80 p-3 backdrop-blur md:flex dark:bg-void/80">
-            {researchAreas.slice(0, 4).map((a) => (
-              <span key={a} className="rounded-full bg-ink/5 px-2.5 py-1 font-mono text-[10px] dark:bg-mist/10">
-                {a}
-              </span>
+
+          {/* Floating, drifting research tags */}
+          {badges.map((b) => (
+            <motion.span
+              key={b.label}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1, y: [0, -8, 0] }}
+              transition={{
+                opacity: { duration: 0.6, delay: 0.6 + b.delay * 0.2 },
+                scale: { duration: 0.6, delay: 0.6 + b.delay * 0.2 },
+                y: { duration: 6, repeat: Infinity, ease: "easeInOut", delay: b.delay },
+              }}
+              className={`glass absolute ${b.pos} hidden rounded-full px-3.5 py-1.5 font-mono text-[10px]
+                          tracking-wide shadow-lg lg:block`}
+            >
+              {b.label}
+            </motion.span>
+          ))}
+
+          {/* Stats as a glass card overlapping the portrait */}
+          <motion.dl
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.5, ease }}
+            className="glass absolute -bottom-8 left-1/2 hidden w-[88%] -translate-x-1/2 justify-between
+                       rounded-2xl px-6 py-5 shadow-[0_24px_60px_-30px_rgba(0,0,0,.6)] md:flex"
+          >
+            {profile.stats.map((s) => (
+              <div key={s.label} className="text-center">
+                <dt className="font-display text-3xl leading-none">{s.value}</dt>
+                <dd className="mt-2 font-mono text-[10px] uppercase tracking-widest text-ink/55 dark:text-mist/55">
+                  {s.label}
+                </dd>
+              </div>
             ))}
-          </div>
+          </motion.dl>
         </motion.div>
       </div>
     </section>

@@ -18,7 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..600&family=Inter:wght@300..700&display=swap"
           rel="stylesheet"
         />
         {/* Light is the default; dark only if the visitor chose it. Runs before
@@ -30,6 +30,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
+        {/* Ambient mesh — one fixed layer for the whole site instead of a
+            gradient blob per section. */}
+        <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+          <div className="mesh -top-60 left-[8%] h-[38rem] w-[38rem] bg-teal-500/20 dark:bg-teal-500/25" />
+          <div className="mesh top-[38%] right-[-10%] h-[34rem] w-[34rem] bg-gold-400/15 dark:bg-gold-400/12" />
+          <div className="mesh bottom-[-12%] left-[25%] h-[32rem] w-[32rem] bg-teal-600/12 dark:bg-teal-600/18" />
+        </div>
+
         <Nav />
         <main>{children}</main>
         <Footer />
