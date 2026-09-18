@@ -131,7 +131,7 @@ export default function Hero() {
                 scale: { duration: 0.6, delay: 0.6 + b.delay * 0.2 },
                 y: { duration: 6, repeat: Infinity, ease: "easeInOut", delay: b.delay },
               }}
-              className={`glass absolute ${b.pos} hidden rounded-full px-3.5 py-1.5 font-mono text-[10px]
+              className={`glass-strong absolute ${b.pos} hidden rounded-full px-3.5 py-1.5 font-mono text-[10px]
                           tracking-wide shadow-lg lg:block`}
             >
               {b.label}
@@ -143,7 +143,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5, ease }}
-            className="glass absolute -bottom-8 left-1/2 hidden w-[88%] -translate-x-1/2 justify-between
+            className="glass-strong absolute -bottom-8 left-1/2 hidden w-[88%] -translate-x-1/2 justify-between
                        rounded-2xl px-6 py-5 shadow-[0_24px_60px_-30px_rgba(0,0,0,.6)] md:flex"
           >
             {profile.stats.map((s) => (
