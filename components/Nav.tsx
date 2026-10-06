@@ -35,7 +35,7 @@ export default function Nav() {
         // stays frosted whenever the menu is open, so the panel reads as one piece.
         className={`mx-auto flex items-center justify-between rounded-full transition-all duration-500
           ${scrolled || open
-            ? "glass mt-3 max-w-3xl px-4 py-2.5 shadow-[0_8px_40px_-16px_rgba(0,0,0,.35)] sm:px-5"
+            ? "glass-strong mt-3 max-w-3xl px-4 py-2.5 shadow-[0_8px_40px_-16px_rgba(0,0,0,.35)] sm:px-5"
             : "mt-4 max-w-6xl border border-transparent px-4 py-3 sm:mt-5 sm:px-6 sm:py-4"}`}
       >
         <Magnetic strength={0.25}>
@@ -94,7 +94,7 @@ export default function Nav() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.25, ease }}
-            className="glass mx-auto mt-2 max-w-3xl overflow-hidden rounded-3xl p-2 shadow-[0_8px_40px_-16px_rgba(0,0,0,.35)] sm:hidden"
+            className="glass-strong mx-auto mt-2 max-w-3xl overflow-hidden rounded-3xl p-2 shadow-[0_8px_40px_-16px_rgba(0,0,0,.35)] sm:hidden"
           >
             {links.map((l) => (
               <li key={l.href}>
