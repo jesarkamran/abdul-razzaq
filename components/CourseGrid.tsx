@@ -1,23 +1,25 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, BookOpen, Clock, Play } from "lucide-react";
+import { ArrowUpRight, BookOpen, Clock } from "lucide-react";
 import { ACADEMIC_COURSES, type CourseTier } from "@/data/coursesData";
 import { Reveal, Spotlight } from "./ui";
 
-// One accent per level: badge tint + the card's top hairline.
-const tier: Record<CourseTier, { badge: string; rule: string }> = {
+const tier: Record<CourseTier, { badge: string; bar: string; dot: string }> = {
   Beginner: {
-    badge: "bg-teal-500/15 text-teal-700 dark:text-teal-400",
-    rule: "from-teal-500/70",
+    badge: "bg-emerald-500/12 text-emerald-700 ring-emerald-500/25 dark:text-emerald-400",
+    bar: "from-emerald-500 to-emerald-500/0",
+    dot: "bg-emerald-500",
   },
   Intermediate: {
-    badge: "bg-amber-500/15 text-amber-700 dark:text-amber-400",
-    rule: "from-amber-500/70",
+    badge: "bg-amber-500/12 text-amber-700 ring-amber-500/25 dark:text-amber-400",
+    bar: "from-amber-500 to-amber-500/0",
+    dot: "bg-amber-500",
   },
   Advanced: {
-    badge: "bg-violet-500/15 text-violet-700 dark:text-violet-400",
-    rule: "from-violet-500/70",
+    badge: "bg-rose-500/12 text-rose-700 ring-rose-500/25 dark:text-rose-400",
+    bar: "from-rose-500 to-rose-500/0",
+    dot: "bg-rose-500",
   },
 };
 
@@ -25,52 +27,79 @@ export default function CourseGrid({ exclude, limit }: { exclude?: string; limit
   const shown = ACADEMIC_COURSES.filter((c) => c.courseId !== exclude).slice(0, limit);
 
   return (
-    <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+    <ul role="list" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
       {shown.map((c, i) => (
-        <Reveal key={c.courseId} i={i % 4}>
-          <Spotlight className="card group relative h-full overflow-hidden">
-            {/* Level accent along the top edge */}
-            <span
-              aria-hidden
-              className={`absolute inset-x-0 top-0 h-px bg-gradient-to-r ${tier[c.tier].rule} to-transparent`}
-            />
-            <Link href={`/lectures/${c.courseId}`} className="flex h-full flex-col p-6">
-              <span className="flex flex-wrap items-center gap-2">
-                <span className="rounded-full bg-ink/5 px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest dark:bg-mist/10">
-                  {c.courseCode}
+        <li key={c.courseId}>
+          <Reveal i={i % 4} className="h-full">
+            <Spotlight className="card group flex h-full flex-col overflow-hidden p-6">
+              <span
+                aria-hidden
+                className={`absolute inset-x-0 top-0 h-1 origin-left scale-x-[0.35] bg-gradient-to-r ${tier[c.tier].bar}
+                            transition-transform duration-500 ease-out group-hover:scale-x-100 group-has-[:focus-visible]:scale-x-100`}
+              />
+
+              <div className="flex items-start justify-between gap-3">
+                <span
+                  aria-hidden
+                  className="font-display text-5xl leading-none text-ink/12 transition-colors duration-500
+                             group-hover:text-accent-600/60 dark:text-mist/12 dark:group-hover:text-accent-400/60"
+                >
+                  {String(c.order).padStart(2, "0")}
                 </span>
-                <span className={`rounded-full px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest ${tier[c.tier].badge}`}>
+                <span
+                  className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 font-mono text-[10px] uppercase
+                              tracking-widest ring-1 ring-inset ${tier[c.tier].badge}`}
+                >
+                  <span aria-hidden className={`h-1.5 w-1.5 rounded-full ${tier[c.tier].dot}`} />
                   {c.tier}
                 </span>
-              </span>
+              </div>
 
-              <h3 className="mt-4 font-display text-xl leading-snug">{c.title}</h3>
+              <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.18em] text-ink/50 dark:text-mist/50">
+                {c.courseCode}
+              </p>
+
+              <h3 className="mt-1.5 font-display text-xl leading-snug text-balance">
+                <Link
+                  href={`/lectures/${c.courseId}`}
+                  className="outline-none after:absolute after:inset-0 after:rounded-[inherit]"
+                >
+                  {c.title}
+                </Link>
+              </h3>
 
               <p className="mt-3 flex-1 text-sm leading-relaxed text-ink/60 line-clamp-3 dark:text-mist/60">
                 {c.description}
               </p>
 
-              <span className="mt-6 flex items-center justify-between border-t border-ink/10 pt-4 font-mono text-[11px] uppercase tracking-widest text-ink/45 dark:border-mist/10 dark:text-mist/45">
-                <span className="flex items-center gap-3">
-                  <span className="flex items-center gap-1.5"><BookOpen size={12} />{c.lectureCount}</span>
-                  <span className="flex items-center gap-1.5"><Clock size={12} />{c.totalDuration}</span>
+              <div className="mt-6 flex items-end justify-between gap-3 border-t border-ink/10 pt-4 dark:border-mist/10">
+                <dl className="flex gap-5">
+                  <div>
+                    <dt className="flex items-center gap-1 font-mono text-[10px] uppercase tracking-widest text-ink/45 dark:text-mist/45">
+                      <BookOpen size={11} aria-hidden /> Lectures
+                    </dt>
+                    <dd className="mt-0.5 text-base font-medium tabular-nums">{c.lectureCount}</dd>
+                  </div>
+                  <div>
+                    <dt className="flex items-center gap-1 font-mono text-[10px] uppercase tracking-widest text-ink/45 dark:text-mist/45">
+                      <Clock size={11} aria-hidden /> Runtime
+                    </dt>
+                    <dd className="mt-0.5 text-base font-medium tabular-nums">{c.totalDuration}</dd>
+                  </div>
+                </dl>
+                <span
+                  aria-hidden
+                  className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-ink/12 transition-all duration-300
+                             group-hover:rotate-45 group-hover:border-accent-500 group-hover:bg-accent-500 group-hover:text-white
+                             dark:border-mist/15"
+                >
+                  <ArrowUpRight size={15} />
                 </span>
-                <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
-              </span>
-            </Link>
-
-            {/* Play affordance — scales in from the corner on hover */}
-            <span
-              aria-hidden
-              className="pointer-events-none absolute right-5 top-5 grid h-10 w-10 scale-75 place-items-center
-                         rounded-full bg-teal-500 text-white opacity-0 shadow-lg shadow-teal-500/40
-                         transition-all duration-300 group-hover:scale-100 group-hover:opacity-100"
-            >
-              <Play size={14} className="ml-0.5 fill-current" />
-            </span>
-          </Spotlight>
-        </Reveal>
+              </div>
+            </Spotlight>
+          </Reveal>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }

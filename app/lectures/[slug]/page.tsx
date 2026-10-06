@@ -8,9 +8,9 @@ import { profile, publications } from "@/lib/data";
 import { ACADEMIC_COURSES, courseById, type CourseTier } from "@/data/coursesData";
 
 const tierStyle: Record<CourseTier, string> = {
-  Beginner: "bg-teal-500/15 text-teal-700 dark:text-teal-400",
+  Beginner: "bg-emerald-500/15 text-emerald-700 dark:text-emerald-400",
   Intermediate: "bg-amber-500/15 text-amber-700 dark:text-amber-400",
-  Advanced: "bg-violet-500/15 text-violet-700 dark:text-violet-400",
+  Advanced: "bg-rose-500/15 text-rose-700 dark:text-rose-400",
 };
 
 export function generateStaticParams() {
@@ -40,13 +40,15 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
   return (
     <div className="px-6 pt-36 pb-28">
       <div className="mx-auto max-w-6xl">
+        <nav aria-label="Breadcrumb">
         <Link
           href="/lectures"
           className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-ink/45
-                     transition-colors hover:text-teal-600 dark:text-mist/45"
+                     transition-colors hover:text-accent-600 dark:text-mist/45"
         >
-          <ArrowLeft size={13} /> All courses
+          <ArrowLeft size={13} aria-hidden /> All courses
         </Link>
+        </nav>
 
         <div className="mt-8 flex flex-wrap items-center gap-2">
           <span className="rounded-full bg-ink/5 px-3 py-1 font-mono text-[10px] uppercase tracking-widest dark:bg-mist/10">
@@ -68,11 +70,11 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
         </p>
 
         <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 font-mono text-[11px] uppercase tracking-widest text-ink/45 dark:text-mist/45">
-          <span className="flex items-center gap-1.5"><BookOpen size={13} />{course.lectureCount} lectures</span>
-          <span className="flex items-center gap-1.5"><Clock size={13} />{course.totalDuration}</span>
+          <span className="flex items-center gap-1.5"><BookOpen size={13} aria-hidden />{course.lectureCount} lectures</span>
+          <span className="flex items-center gap-1.5"><Clock size={13} aria-hidden />{course.totalDuration}</span>
         </div>
 
-        <ul className="mt-8 flex flex-wrap gap-2">
+        <ul aria-label="Syllabus highlights" className="mt-8 flex flex-wrap gap-2">
           {course.syllabusHighlights.map((h) => (
             <li key={h} className="rounded-full bg-ink/5 px-3.5 py-1.5 font-mono text-[11px] dark:bg-mist/10">
               {h}
@@ -80,27 +82,27 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
           ))}
         </ul>
 
-        <div className="mt-14">
+        <section aria-label="Lectures" className="mt-14">
           <CourseLectureList course={course} />
-        </div>
+        </section>
 
-        {/* Sequencing: the whole point of the ordering is being able to walk it. */}
-        <nav className="mt-20 grid gap-4 sm:grid-cols-2">
+        <nav aria-label="Course sequence" className="mt-20 grid gap-4 sm:grid-cols-2">
           {[prev, next].map((c, idx) =>
             c ? (
               <Link
                 key={c.courseId}
                 href={`/lectures/${c.courseId}`}
-                className={`group rounded-2xl border border-ink/10 p-6 transition-all hover:-translate-y-1
-                           hover:border-ink/25 dark:border-mist/10 dark:hover:border-mist/25
+                rel={idx === 0 ? "prev" : "next"}
+                className={`group rounded-2xl border border-ink/10 p-6 transition-all duration-300 hover:-translate-y-1
+                           hover:border-accent-500/50 focus-visible:-translate-y-1 dark:border-mist/10 dark:hover:border-mist/25
                            ${idx === 1 ? "sm:text-right" : ""}`}
               >
                 <span className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-ink/45 dark:text-mist/45"
                       style={idx === 1 ? { justifyContent: "flex-end" } : undefined}>
-                  {idx === 0 ? <><ArrowLeft size={12} /> Previous course</> : <>Next course <ArrowRight size={12} /></>}
+                  {idx === 0 ? <><ArrowLeft size={12} aria-hidden /> Previous course</> : <>Next course <ArrowRight size={12} aria-hidden /></>}
                 </span>
-                <span className="mt-2.5 block font-display text-xl leading-snug">{c.title}</span>
-                <span className="mt-1 block font-mono text-[10px] uppercase tracking-widest text-teal-600 dark:text-teal-500">
+                <span className="mt-2.5 block font-display text-xl leading-snug transition-colors group-hover:text-accent-700 dark:group-hover:text-accent-400">{c.title}</span>
+                <span className="mt-1 block font-mono text-[10px] uppercase tracking-widest text-accent-600 dark:text-accent-400">
                   {c.courseCode} · {c.lectureCount} lectures
                 </span>
               </Link>
@@ -112,7 +114,7 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
 
         {related.length > 0 && (
           <section className="mt-20 rounded-3xl border border-ink/10 p-8 md:p-10 dark:border-mist/10">
-            <p className="font-mono text-[10px] uppercase tracking-widest text-teal-600 dark:text-teal-500">
+            <p className="font-mono text-[10px] uppercase tracking-widest text-accent-600 dark:text-accent-400">
               From the research
             </p>
             <h2 className="mt-3 font-display text-2xl">Papers that build on this course</h2>
@@ -124,9 +126,9 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
                     target="_blank" rel="noopener noreferrer"
                     className="group flex flex-wrap items-baseline justify-between gap-2"
                   >
-                    <span className="transition-colors group-hover:text-teal-600">{p.title}</span>
+                    <span className="transition-colors group-hover:text-accent-600">{p.title}</span>
                     <span className="font-mono text-[10px] uppercase tracking-widest text-ink/45 dark:text-mist/45">
-                      {p.year} · {p.venue} ↗
+                      {p.year} · {p.venue} <span aria-hidden>↗</span><span className="sr-only">(opens in a new tab)</span>
                     </span>
                   </a>
                 </li>
@@ -152,7 +154,7 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
             className="rounded-full bg-ink px-7 py-3.5 text-sm font-medium text-paper
                        transition-transform hover:-translate-y-0.5 dark:bg-mist dark:text-void"
           >
-            Book a Session →
+            Book a Session <span aria-hidden>→</span>
           </Link>
         </section>
       </div>

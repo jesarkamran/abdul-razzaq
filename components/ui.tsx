@@ -1,9 +1,8 @@
 "use client";
 
 import { useRef, type ReactNode } from "react";
-import { motion, useMotionValue, useSpring, type Variants } from "framer-motion";
+import { MotionConfig, motion, useMotionValue, useSpring, type Variants } from "framer-motion";
 
-/** Shared easing + reveal variants. Import these instead of re-declaring them. */
 export const ease = [0.22, 1, 0.36, 1] as const;
 
 export const rise: Variants = {
@@ -15,7 +14,10 @@ export const rise: Variants = {
   }),
 };
 
-/** Scroll-reveal wrapper: fires once, slightly before the element is in view. */
+export function MotionProvider({ children }: { children: ReactNode }) {
+  return <MotionConfig reducedMotion="user">{children}</MotionConfig>;
+}
+
 export function Reveal({
   children,
   i = 0,
@@ -39,10 +41,6 @@ export function Reveal({
   );
 }
 
-/**
- * Feeds the pointer position to the `.card` hover highlight as --mx/--my.
- * CSS does the drawing; this only writes two custom properties.
- */
 export function Spotlight({ children, className }: { children: ReactNode; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   return (
@@ -62,7 +60,6 @@ export function Spotlight({ children, className }: { children: ReactNode; classN
   );
 }
 
-/** Magnetic hover: the child drifts toward the cursor, springs back on exit. */
 export function Magnetic({
   children,
   strength = 0.35,
@@ -82,7 +79,7 @@ export function Magnetic({
       style={{ x, y, display: "inline-block" }}
       className={className}
       onPointerMove={(e) => {
-        if (e.pointerType !== "mouse") return;   // touch drags must not move it
+        if (e.pointerType !== "mouse") return;
         const r = ref.current?.getBoundingClientRect();
         if (!r) return;
         x.set((e.clientX - (r.left + r.width / 2)) * strength);
@@ -95,5 +92,45 @@ export function Magnetic({
     >
       {children}
     </motion.span>
+  );
+}
+
+export function SectionHeader({
+  index,
+  eyebrow,
+  title,
+  id,
+  lede,
+  action,
+  className = "",
+}: {
+  index: string;
+  eyebrow: string;
+  title: ReactNode;
+  id: string;
+  lede?: ReactNode;
+  action?: ReactNode;
+  className?: string;
+}) {
+  return (
+    <Reveal className={`flex flex-wrap items-end justify-between gap-x-10 gap-y-7 ${className}`}>
+      <div className="max-w-2xl">
+        <p className="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-accent-600 dark:text-accent-400">
+          <span className="tabular-nums">{index}</span>
+          <span aria-hidden className="h-px w-8 bg-current opacity-40" />
+          {eyebrow}
+        </p>
+        <h2
+          id={id}
+          className="mt-4 font-display text-[clamp(2.25rem,6vw,3.75rem)] leading-[1.05] tracking-tight text-balance"
+        >
+          {title}
+        </h2>
+        {lede && (
+          <p className="mt-5 max-w-xl text-base leading-relaxed text-ink/65 sm:text-lg dark:text-mist/65">{lede}</p>
+        )}
+      </div>
+      {action}
+    </Reveal>
   );
 }

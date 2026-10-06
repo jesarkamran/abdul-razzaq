@@ -20,6 +20,13 @@ export const profile = {
   ],
 };
 
+export const navLinks = [
+  { href: "/#about", label: "About", id: "about" },
+  { href: "/#research", label: "Research", id: "research" },
+  { href: "/lectures", label: "Lectures", id: "lectures" },
+  { href: "/#booking", label: "Contact", id: "booking" },
+];
+
 export const researchAreas = [
   "Digital Financial Inclusion",
   "Fintech Adoption",

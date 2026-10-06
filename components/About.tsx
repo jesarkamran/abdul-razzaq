@@ -7,13 +7,12 @@ import {
   Globe,
   Briefcase,
   BookMarked,
-  Sparkles,
+  ArrowUpRight,
   type LucideIcon,
 } from "lucide-react";
 import { profile, researchAreas } from "@/lib/data";
-import { Reveal, Spotlight } from "./ui";
+import { Reveal, SectionHeader, Spotlight } from "./ui";
 
-// Swap any icon here for another Lucide glyph — nothing else depends on it.
 const facts: { label: string; value: string; href?: string; Icon: LucideIcon }[] = [
   { label: "Position", value: `${profile.role}, ${profile.school}`, Icon: GraduationCap },
   { label: "University", value: profile.university, Icon: Building2 },
@@ -25,27 +24,46 @@ const facts: { label: string; value: string; href?: string; Icon: LucideIcon }[]
 
 export default function About() {
   return (
-    <section id="about" className="px-5 py-20 sm:px-6 md:py-28">
-      <div className="mx-auto max-w-6xl">
-        <Reveal>
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-teal-600 dark:text-teal-400">
-            Academic Profile
-          </p>
-          <h2 className="mt-3 max-w-2xl font-display text-[clamp(2rem,8vw,2.25rem)] tracking-tight md:text-5xl">
-            Teaching, and the research behind it
-          </h2>
-        </Reveal>
+    <section id="about" aria-labelledby="about-title" className="px-5 py-24 sm:px-6 md:py-32">
+      <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-12 lg:gap-16">
+        <div className="lg:col-span-5">
+          <div className="lg:sticky lg:top-32">
+            <SectionHeader
+              index="01"
+              eyebrow="Academic Profile"
+              id="about-title"
+              title="Teaching, and the research behind it"
+            />
+            <Reveal i={1}>
+              <h3 className="mt-10 font-mono text-[10px] uppercase tracking-widest text-ink/50 dark:text-mist/50">
+                Research areas
+              </h3>
+              <ul className="mt-4 flex flex-wrap gap-2">
+                {researchAreas.map((a) => (
+                  <li
+                    key={a}
+                    className="rounded-full border border-ink/10 bg-paper/60 px-3.5 py-1.5 text-[13px] transition-colors duration-300
+                               hover:border-accent-500/40 hover:text-accent-600 dark:border-mist/10 dark:bg-mist/5 dark:hover:text-accent-400"
+                  >
+                    {a}
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+          </div>
+        </div>
 
-        {/* Bento: wide bio card, a research-areas card, a contact card. */}
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 md:mt-12 lg:grid-cols-3">
-          <Reveal i={0} className="sm:col-span-2">
-            <Spotlight className="card h-full p-6 sm:p-8 md:p-10">
-              <div className="space-y-5 text-base leading-relaxed sm:text-lg text-ink/70 dark:text-mist/70">
+        <div className="space-y-5 lg:col-span-7">
+          <Reveal>
+            <Spotlight className="card p-7 sm:p-10">
+              <p className="font-display text-2xl leading-snug text-balance sm:text-[1.75rem]">
+                I teach financial management, cost and management accounting, and financial
+                markets at the {profile.school}, {profile.university}.
+              </p>
+              <div className="mt-6 space-y-5 text-base leading-relaxed text-ink/70 dark:text-mist/70">
                 <p>
-                  I teach financial management, cost and management accounting, and financial
-                  markets at the {profile.school}, {profile.university}. Most of my classroom
-                  work is now recorded and published openly, so students can work through the
-                  numericals again at their own pace.
+                  Most of my classroom work is now recorded and published openly, so students can work
+                  through the numericals again at their own pace.
                 </p>
                 <p>
                   My research sits where finance meets development and the environment: how
@@ -57,62 +75,47 @@ export default function About() {
             </Spotlight>
           </Reveal>
 
-          <Reveal i={1} className="sm:col-span-2 lg:col-span-1">
-            <Spotlight className="card h-full p-6 sm:p-8">
-              <p className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-ink/45 dark:text-mist/45">
-                <Sparkles size={13} className="text-teal-500" /> Research Areas
-              </p>
-              <ul className="mt-6 flex flex-wrap gap-2">
-                {researchAreas.map((a) => (
-                  <li
-                    key={a}
-                    className="cursor-default rounded-full border border-ink/8 bg-ink/5 px-3.5 py-1.5 font-mono text-[11px]
-                               transition-transform duration-300 hover:scale-105 hover:border-teal-500/40
-                               hover:text-teal-600 dark:border-mist/10 dark:bg-mist/10 dark:hover:text-teal-400"
+          <Reveal i={1}>
+            <h3 className="sr-only">Contact and profiles</h3>
+            <ul role="list" className="grid gap-3 sm:grid-cols-2">
+              {facts.map(({ label, value, href, Icon }) => (
+                <li key={label}>
+                <Spotlight className="card group flex h-full items-start gap-4 p-5">
+                  <span
+                    aria-hidden
+                    className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-accent-500/10 text-accent-600
+                               transition-colors duration-300 group-hover:bg-accent-500 group-hover:text-white dark:text-accent-400"
                   >
-                    {a}
-                  </li>
-                ))}
-              </ul>
-            </Spotlight>
-          </Reveal>
-
-          <Reveal i={2} className="sm:col-span-2 lg:col-span-3">
-            <Spotlight className="card p-6 sm:p-8 md:p-10">
-              <p className="font-mono text-[10px] uppercase tracking-widest text-ink/45 dark:text-mist/45">
-                Contact & Profiles
-              </p>
-              <dl className="mt-7 grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-                {facts.map(({ label, value, href, Icon }) => (
-                  <div key={label} className="group flex gap-4">
-                    <span className="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-teal-500/10
-                                     text-teal-600 transition-colors group-hover:bg-teal-500/20 dark:text-teal-400">
-                      <Icon size={16} />
-                    </span>
-                    <div className="min-w-0 flex-1">
-                      <dt className="font-mono text-[10px] uppercase tracking-widest text-ink/45 dark:text-mist/45">
-                        {label}
-                      </dt>
-                      <dd className="mt-1 text-sm leading-snug break-words">
-                        {href ? (
-                          <a
-                            href={href}
-                            target={href.startsWith("http") ? "_blank" : undefined}
-                            rel="noopener noreferrer"
-                            className="underline decoration-ink/20 underline-offset-4 transition-colors
-                                       hover:text-teal-600 hover:decoration-teal-600 dark:decoration-mist/20"
-                          >
-                            {value}
-                          </a>
-                        ) : (
-                          value
-                        )}
-                      </dd>
-                    </div>
+                    <Icon size={16} />
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <p className="font-mono text-[10px] uppercase tracking-widest text-ink/50 dark:text-mist/50">{label}</p>
+                    <p className="mt-1 text-sm leading-snug break-words">
+                      {href ? (
+                        <a
+                          href={href}
+                          target={href.startsWith("http") ? "_blank" : undefined}
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 outline-none transition-colors after:absolute after:inset-0
+                                     after:rounded-[inherit] hover:text-accent-600 dark:hover:text-accent-400"
+                        >
+                          {value}
+                          {href.startsWith("http") && (
+                            <>
+                              <ArrowUpRight size={12} aria-hidden className="opacity-50" />
+                              <span className="sr-only">(opens in a new tab)</span>
+                            </>
+                          )}
+                        </a>
+                      ) : (
+                        value
+                      )}
+                    </p>
                   </div>
-                ))}
-              </dl>
-            </Spotlight>
+                </Spotlight>
+                </li>
+              ))}
+            </ul>
           </Reveal>
         </div>
       </div>
