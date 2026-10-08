@@ -57,19 +57,14 @@ export default function About() {
           <Reveal>
             <Spotlight className="card p-7 sm:p-10">
               <p className="font-display text-2xl leading-snug text-balance sm:text-[1.75rem]">
-                I teach financial management, cost and management accounting, and financial
-                markets at the {profile.school}, {profile.university}.
+                {profile.aboutLead}
               </p>
               <div className="mt-6 space-y-5 text-base leading-relaxed text-ink/70 dark:text-mist/70">
                 <p>
-                  Most of my classroom work is now recorded and published openly, so students can work
-                  through the numericals again at their own pace.
+                  {profile.aboutParagraph1}
                 </p>
                 <p>
-                  My research sits where finance meets development and the environment: how
-                  digital financial services reach households the formal sector has missed, what
-                  drives fintech adoption, and whether green innovation and clean energy actually
-                  decouple growth from ecological damage.
+                  {profile.aboutParagraph2}
                 </p>
               </div>
             </Spotlight>

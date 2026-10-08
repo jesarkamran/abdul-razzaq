@@ -1,0 +1,36 @@
+# Pulls the Google Sheet into data/content.json every hour; commits only if the content changed.
+# In a hurry? Actions tab -> "Sync content" -> Run workflow.
+name: Sync content
+
+on:
+  schedule:
+    - cron: "0 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency: sync-content
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm run sync
+        env:
+          CONTENT_FILE_URL: ${{ secrets.CONTENT_FILE_URL }}
+      - name: Commit if the sheet changed
+        run: |
+          if git diff --quiet -- data/content.json; then
+            echo "Sheet unchanged, skipping."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git add data/content.json
+          git commit -m "Sync content from Google Sheet"
+          git push

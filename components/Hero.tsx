@@ -48,9 +48,7 @@ export default function Hero() {
             custom={2} initial="hidden" animate="show" variants={rise}
             className="mt-6 max-w-xl text-base leading-relaxed text-ink/70 sm:text-lg dark:text-mist/70"
           >
-            Teaching financial management and accounting at the {profile.school} — and
-            researching digital financial inclusion, fintech adoption and the economics of
-            green innovation.
+            {profile.heroIntro}
           </motion.p>
 
           <motion.div

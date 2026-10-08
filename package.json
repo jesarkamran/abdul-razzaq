@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "sync": "node --env-file-if-exists=.env scripts/sync-content.mjs",
+    "export": "node scripts/export-content.mjs"
   },
   "dependencies": {
     "framer-motion": "^12.23.12",
